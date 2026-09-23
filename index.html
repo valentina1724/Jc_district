@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JC District | Ropa</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -360,6 +361,40 @@
 
     .contacto-card a:hover {
       color: var(--texto);
+    }
+
+    /* ---------- Botón flotante de WhatsApp ---------- */
+    .whatsapp-flotante {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 150;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background-color: #25d366;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .whatsapp-flotante:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 22px rgba(37, 211, 102, 0.5);
+    }
+
+    /* ---------- Síguenos ---------- */
+    .siguenos-titulo {
+      text-align: center;
+      margin: 44px 0 6px;
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 4px;
     }
 
     /* ---------- Lightbox ---------- */
@@ -867,17 +902,25 @@
       </div>
       <div class="contacto-grid">
         <div class="contacto-card">
-          <div class="contacto-icono">&#128222;</div>
+          <div class="contacto-icono"><i class="fa-brands fa-whatsapp"></i></div>
           <h3>WhatsApp</h3>
           <a href="https://wa.me/573005729947" target="_blank" rel="noopener">300 572 9947</a>
         </div>
         <div class="contacto-card">
-          <div class="contacto-icono">&#128247;</div>
+          <div class="contacto-icono"><i class="fa-solid fa-location-dot"></i></div>
+          <h3>Dirección</h3>
+          <p>Cra 97 #68 - 32</p>
+        </div>
+      </div>
+      <h3 class="siguenos-titulo">Síguenos</h3>
+      <div class="contacto-grid">
+        <div class="contacto-card">
+          <div class="contacto-icono"><i class="fa-brands fa-instagram"></i></div>
           <h3>Instagram</h3>
           <a href="https://www.instagram.com/jc_district_luxury?stkn=YWZ5OGoxcGYzbjlr" target="_blank" rel="noopener">@jc_district_luxury</a>
         </div>
         <div class="contacto-card">
-          <div class="contacto-icono">&#127908;</div>
+          <div class="contacto-icono"><i class="fa-brands fa-tiktok"></i></div>
           <h3>TikTok</h3>
           <a href="https://www.tiktok.com/@jc_district" target="_blank" rel="noopener">@jc_district</a>
         </div>
@@ -943,6 +986,10 @@
       </div>
     </div>
   </aside>
+
+  <a class="whatsapp-flotante" href="https://wa.me/573005729947" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
 
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
     <button class="lightbox-cerrar" id="lb-cerrar" aria-label="Cerrar">&times;</button>
