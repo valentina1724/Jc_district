@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JC District | Ropa</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --negro: #0a0a0a;
+      --negro-suave: #141414;
+      --gris: #1f1f1f;
+      --borde: #2c2c2c;
+      --texto: #f5f5f5;
+      --texto-suave: #9a9a9a;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--negro);
+      color: var(--texto);
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .contenedor {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ---------- Barra de navegación ---------- */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .logo-img {
+      height: 56px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .logo span {
+      color: var(--texto-suave);
+      font-weight: 400;
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .menu a {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--texto-suave);
+      transition: color 0.2s ease;
+    }
+
+    .menu a:hover,
+    .menu a.activo {
+      color: var(--texto);
+    }
+
+    /* ---------- Héroe ---------- */
+    .hero {
+      text-align: center;
+      padding: 100px 20px 80px;
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .hero .logo-hero {
+      max-height: 260px;
+      width: auto;
+      margin: 0 auto 28px;
+    }
+
+    .hero p {
+      color: var(--texto-suave);
+      font-size: 16px;
+      max-width: 560px;
+      margin: 0 auto 28px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 32px;
+      border: 1px solid var(--texto);
+      color: var(--negro);
+      background-color: var(--texto);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: transparent;
+      color: var(--texto);
+    }
+
+    /* ---------- Secciones ---------- */
+    .seccion {
+      padding: 60px 0;
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .seccion:last-of-type {
+      border-bottom: none;
+    }
+
+    .seccion-titulo {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .seccion-titulo h2 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .seccion-titulo p {
+      color: var(--texto-suave);
+      font-size: 14px;
+    }
+
+    /* ---------- Filtros ---------- */
+    .filtros {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    .filtro {
+      padding: 8px 20px;
+      border: 1px solid var(--borde);
+      background: transparent;
+      color: var(--texto-suave);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filtro:hover,
+    .filtro.activo {
+      border-color: var(--texto);
+      color: var(--texto);
+      background: var(--gris);
+    }
+
+    /* ---------- Productos ---------- */
+    .productos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 24px;
+    }
+
+    .producto {
+      background-color: var(--negro-suave);
+      border: 1px solid var(--borde);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .producto:hover {
+      border-color: var(--texto-suave);
+      transform: translateY(-4px);
+    }
+
+    .producto figure {
+      background-color: var(--gris);
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-in;
+    }
+
+    .producto img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .producto:hover img {
+      transform: scale(1.05);
+    }
+
+    .producto figure:hover img {
+      opacity: 0.85;
+    }
+
+    .producto-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .producto-nombre {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .producto-precio {
+      color: var(--texto);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .producto-precio small {
+      color: var(--texto-suave);
+      font-weight: 400;
+    }
+
+    .tallas {
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .talla {
+      flex: 1;
+      padding: 7px 0;
+      border: 1px solid var(--borde);
+      background: transparent;
+      color: var(--texto-suave);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .talla:hover {
+      border-color: var(--texto);
+      color: var(--texto);
+    }
+
+    .talla.seleccionada {
+      background-color: var(--texto);
+      color: var(--negro);
+      border-color: var(--texto);
+    }
+
+    .producto-agregar {
+      padding: 12px;
+      border: 1px solid var(--texto);
+      background: transparent;
+      color: var(--texto);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .producto-agregar:hover {
+      background-color: var(--texto);
+      color: var(--negro);
+    }
+
+    /* ---------- Contacto ---------- */
+    .contacto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .contacto-card {
+      background-color: var(--negro-suave);
+      border: 1px solid var(--borde);
+      padding: 28px 20px;
+      text-align: center;
+      transition: border-color 0.2s ease;
+    }
+
+    .contacto-card:hover {
+      border-color: var(--texto-suave);
+    }
+
+    .contacto-icono {
+      font-size: 26px;
+      margin-bottom: 12px;
+    }
+
+    .contacto-card h3 {
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .contacto-card p,
+    .contacto-card a {
+      color: var(--texto-suave);
+      font-size: 14px;
+      word-break: break-word;
+    }
+
+    .contacto-card a:hover {
+      color: var(--texto);
+    }
+
+    /* ---------- Lightbox ---------- */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background-color: rgba(0, 0, 0, 0.94);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 24px;
+    }
+
+    .lightbox.abierto {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 78vh;
+      object-fit: contain;
+      border: 1px solid var(--borde);
+      background-color: var(--negro-suave);
+    }
+
+    .lightbox-info {
+      margin-top: 16px;
+      text-align: center;
+      color: var(--texto-suave);
+      font-size: 14px;
+    }
+
+    .lightbox-info strong {
+      color: var(--texto);
+    }
+
+    .lightbox-cerrar {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      background: none;
+      border: 1px solid var(--borde);
+      color: var(--texto);
+      font-size: 22px;
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lightbox-cerrar:hover {
+      background-color: var(--texto);
+      color: var(--negro);
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: 1px solid var(--borde);
+      color: var(--texto);
+      font-size: 24px;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-nav:hover {
+      background-color: var(--texto);
+      color: var(--negro);
+    }
+
+    .lightbox-prev {
+      left: 24px;
+    }
+
+    .lightbox-next {
+      right: 24px;
+    }
+
+    /* ---------- Carrito ---------- */
+    .carrito-btn {
+      position: relative;
+      margin-left: 8px;
+      background: none;
+      border: 1px solid var(--borde);
+      color: var(--texto);
+      font-size: 20px;
+      width: 46px;
+      height: 46px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .carrito-btn:hover {
+      border-color: var(--texto);
+      background: var(--gris);
+    }
+
+    .carrito-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--texto);
+      color: var(--negro);
+      font-size: 11px;
+      font-weight: 800;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+    }
+
+    .carrito-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 300;
+      display: none;
+    }
+
+    .carrito-overlay.abierto {
+      display: block;
+    }
+
+    .carrito {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 460px;
+      height: 100%;
+      background: var(--negro-suave);
+      border-left: 1px solid var(--borde);
+      z-index: 301;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .carrito.abierto {
+      transform: translateX(0);
+    }
+
+    .carrito-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .carrito-header h2 {
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .carrito-cerrar {
+      background: none;
+      border: 1px solid var(--borde);
+      color: var(--texto);
+      font-size: 18px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+    }
+
+    .carrito-cerrar:hover {
+      background: var(--texto);
+      color: var(--negro);
+    }
+
+    .carrito-cuerpo {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .carrito-vacio {
+      color: var(--texto-suave);
+      text-align: center;
+      padding: 40px 0;
+      font-size: 14px;
+    }
+
+    .carrito-item {
+      display: flex;
+      gap: 12px;
+      border: 1px solid var(--borde);
+      padding: 10px;
+    }
+
+    .carrito-item img {
+      width: 64px;
+      height: 80px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .carrito-item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .carrito-item-nombre {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .carrito-item-detalle {
+      color: var(--texto-suave);
+      font-size: 12px;
+    }
+
+    .carrito-item-precio {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .carrito-quitar {
+      background: none;
+      border: none;
+      color: var(--texto-suave);
+      cursor: pointer;
+      font-size: 12px;
+      text-decoration: underline;
+    }
+
+    .cantidad {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .cantidad button {
+      width: 26px;
+      height: 26px;
+      border: 1px solid var(--borde);
+      background: transparent;
+      color: var(--texto);
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .cantidad button:hover {
+      background: var(--texto);
+      color: var(--negro);
+    }
+
+    .cantidad span {
+      font-size: 14px;
+      font-weight: 700;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .carrito-footer {
+      border-top: 1px solid var(--borde);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 60%;
+      overflow-y: auto;
+    }
+
+    .carrito-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    /* ---------- Formulario de pedido ---------- */
+    .pedido {
+      display: none;
+      border-top: 1px solid var(--borde);
+      padding: 18px 0 0;
+    }
+
+    .pedido.abierto {
+      display: block;
+    }
+
+    .pedido h3 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+
+    .form-grupo {
+      margin-bottom: 12px;
+    }
+
+    .form-grupo label {
+      display: block;
+      color: var(--texto-suave);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .form-grupo input {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--gris);
+      border: 1px solid var(--borde);
+      color: var(--texto);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .form-grupo input:focus {
+      border-color: var(--texto-suave);
+    }
+
+    .pagos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .pago {
+      position: relative;
+    }
+
+    .pago input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .pago span {
+      display: block;
+      text-align: center;
+      padding: 10px 6px;
+      border: 1px solid var(--borde);
+      color: var(--texto-suave);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pago input:checked + span {
+      background: var(--texto);
+      color: var(--negro);
+      border-color: var(--texto);
+    }
+
+    .enviar {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid var(--texto);
+      background: var(--texto);
+      color: var(--negro);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .enviar:hover {
+      background: transparent;
+      color: var(--texto);
+    }
+
+    /* ---------- Pie de página ---------- */
+    footer {
+      padding: 34px 0;
+      text-align: center;
+      color: var(--texto-suave);
+      font-size: 13px;
+    }
+
+    footer .logo {
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 700px) {
+      .menu {
+        display: none;
+      }
+
+      .hero .logo-hero {
+        max-height: 180px;
+      }
+
+      .lightbox-nav {
+        width: 40px;
+        height: 40px;
+      }
+
+      .lightbox-prev {
+        left: 8px;
+      }
+
+      .lightbox-next {
+        right: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="contenedor nav">
+      <a href="#inicio">
+        <div class="logo">
+          <img class="logo-img" src="img/logo.jpeg" alt="JC District">
+        </div>
+      </a>
+      <ul class="menu">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#camisas">Camisas</a></li>
+        <li><a href="#jeans">Jeans</a></li>
+        <li><a href="#gorras">Gorras</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <button class="carrito-btn" id="carrito-btn" aria-label="Abrir carrito">&#128722;<span class="carrito-badge" id="carrito-badge" style="display:none;">0</span></button>
+    </div>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div class="contenedor">
+      <img class="logo-hero" src="img/logo.jpeg" alt="JC District">
+      <p>Estilo urbano de lujo. Camisas, jeans y gorras para cada momento, con la calidad que te mereces.</p>
+      <a href="#camisas" class="btn">Ver Colección</a>
+    </div>
+  </section>
+
+  <section class="seccion" id="camisas">
+    <div class="contenedor">
+      <div class="seccion-titulo">
+        <h2>Camisas</h2>
+        <p>Disponibles en tallas S, M, L y XL</p>
+      </div>
+      <div class="filtros" id="filtros-camisas">
+        <button class="filtro activo" data-filtro="todas">Todas</button>
+        <button class="filtro" data-filtro="S">Talla S</button>
+        <button class="filtro" data-filtro="M">Talla M</button>
+        <button class="filtro" data-filtro="L">Talla L</button>
+        <button class="filtro" data-filtro="XL">Talla XL</button>
+      </div>
+      <div class="productos" id="camisas-grid"></div>
+    </div>
+  </section>
+
+  <section class="seccion" id="jeans">
+    <div class="contenedor">
+      <div class="seccion-titulo">
+        <h2>Jeans</h2>
+        <p>Todos a $140.000 &mdash; tallas 30, 32, 34, 36 y 38</p>
+      </div>
+      <div class="productos" id="jeans-grid"></div>
+    </div>
+  </section>
+
+  <section class="seccion" id="gorras">
+    <div class="contenedor">
+      <div class="seccion-titulo">
+        <h2>Gorras</h2>
+        <p>Primeras referencias a $60.000 y el resto a $55.000</p>
+      </div>
+      <div class="productos" id="gorras-grid"></div>
+    </div>
+  </section>
+
+  <section class="seccion" id="contacto">
+    <div class="contenedor">
+      <div class="seccion-titulo">
+        <h2>Contacto</h2>
+        <p>Pedidos, precios y atención personalizada.</p>
+      </div>
+      <div class="contacto-grid">
+        <div class="contacto-card">
+          <div class="contacto-icono">&#128222;</div>
+          <h3>WhatsApp</h3>
+          <a href="https://wa.me/573005729947" target="_blank" rel="noopener">300 572 9947</a>
+        </div>
+        <div class="contacto-card">
+          <div class="contacto-icono">&#128247;</div>
+          <h3>Instagram</h3>
+          <a href="https://www.instagram.com/jc_district_luxury?stkn=YWZ5OGoxcGYzbjlr" target="_blank" rel="noopener">@jc_district_luxury</a>
+        </div>
+        <div class="contacto-card">
+          <div class="contacto-icono">&#127908;</div>
+          <h3>TikTok</h3>
+          <a href="https://www.tiktok.com/@jc_district" target="_blank" rel="noopener">@jc_district</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="contenedor">
+      <div class="logo"><img class="logo-img" src="img/logo.jpeg" alt="JC District"></div>
+      &copy; 2026 JC District. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <div class="carrito-overlay" id="carrito-overlay"></div>
+
+  <aside class="carrito" id="carrito" aria-label="Carrito de compras">
+    <div class="carrito-header">
+      <h2>Tu Carrito</h2>
+      <button class="carrito-cerrar" id="carrito-cerrar" aria-label="Cerrar carrito">&times;</button>
+    </div>
+    <div class="carrito-cuerpo" id="carrito-cuerpo"></div>
+    <div class="carrito-footer">
+      <div class="carrito-total">
+        <span>Total</span>
+        <span id="carrito-total">$0</span>
+      </div>
+      <button class="enviar" id="finalizar-btn">Finalizar pedido</button>
+      <div class="pedido" id="pedido">
+        <h3>Datos del cliente</h3>
+        <div class="form-grupo">
+          <label for="f-nombre">Nombre completo</label>
+          <input type="text" id="f-nombre">
+        </div>
+        <div class="form-grupo">
+          <label for="f-telefono">Número de teléfono</label>
+          <input type="tel" id="f-telefono">
+        </div>
+        <div class="form-grupo">
+          <label for="f-direccion">Dirección</label>
+          <input type="text" id="f-direccion">
+        </div>
+        <div class="form-grupo">
+          <label for="f-barrio">Barrio</label>
+          <input type="text" id="f-barrio">
+        </div>
+        <div class="form-grupo">
+          <label for="f-ciudad">Ciudad</label>
+          <input type="text" id="f-ciudad">
+        </div>
+        <div class="form-grupo">
+          <label for="f-correo">Correo electrónico</label>
+          <input type="email" id="f-correo">
+        </div>
+        <h3>Medio de pago</h3>
+        <div class="pagos">
+          <label class="pago"><input type="radio" name="pago" value="Nequi"><span>Nequi</span></label>
+          <label class="pago"><input type="radio" name="pago" value="Bancolombia"><span>Bancolombia</span></label>
+          <label class="pago"><input type="radio" name="pago" value="Daviplata"><span>Daviplata</span></label>
+          <label class="pago"><input type="radio" name="pago" value="Llaves"><span>Llaves</span></label>
+        </div>
+        <button class="enviar" id="enviar-btn">Enviar pedido</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+    <button class="lightbox-cerrar" id="lb-cerrar" aria-label="Cerrar">&times;</button>
+    <button class="lightbox-nav lightbox-prev" id="lb-prev" aria-label="Anterior">&#8249;</button>
+    <img id="lb-imagen" src="" alt="">
+    <div class="lightbox-info"><strong id="lb-nombre"></strong> &mdash; <span id="lb-precio"></span></div>
+    <button class="lightbox-nav lightbox-next" id="lb-next" aria-label="Siguiente">&#8250;</button>
+  </div>
+
+  <script>
+    const WHATSAPP = "573005729947";
+
+    const tallas = ["S", "M", "L", "XL"];
+
+    function precioBase(idx, categoria) {
+      if (categoria === "gorras") return idx < 11 ? 60000 : 55000;
+      if (categoria === "jeans") return 140000;
+      return 45000 + (idx % 5) * 3000;
+    }
+
+    function etiqueta(categoria, idx) {
+      if (categoria === "camisas") return "Camisa JC " + (idx + 1);
+      if (categoria === "jeans") return "Jeans JC " + (idx + 1);
+      return "Gorra JC " + (idx + 1);
+    }
+
+    const config = {
+      camisas: { count: 25, tallas: tallas },
+      jeans: { count: 8, tallas: ["30", "32", "34", "36", "38"] },
+      gorras: { count: 29, tallas: null }
+    };
+
+    const catalogo = {};
+    let lightboxLista = [];
+    let lightboxIndice = 0;
+
+    Object.keys(config).forEach(function (categoria) {
+      const c = config[categoria];
+      catalogo[categoria] = [];
+      for (let i = 0; i < c.count; i++) {
+        catalogo[categoria].push({
+          id: categoria + "-" + i,
+          nombre: etiqueta(categoria, i),
+          precio: precioBase(i, categoria),
+          imagen: "img/" + categoria + "/" +
+            (categoria === "camisas" ? "camisa" : categoria === "jeans" ? "jeans" : "gorra") + (i + 1) + ".jpg",
+          tallas: c.tallas
+        });
+      }
+    });
+
+    function imprimirPrecio(precio, desde) {
+      return (desde ? "<small>desde</small> " : "") + "$" + precio.toLocaleString("es-CO");
+    }
+
+    function crearTarjeta(producto, conTallas, mostrarDesde) {
+      const div = document.createElement("article");
+      div.className = "producto";
+
+      const tallasHTML = conTallas
+        ? '<div class="tallas">' +
+          producto.tallas.map(function (t) {
+            return '<button class="talla" data-talla="' + t + '">' + t + "</button>";
+          }).join("") +
+          "</div>"
+        : "";
+
+      const boton = '<button class="producto-agregar" data-agregar="' + producto.id + '">Agregar</button>';
+
+      div.innerHTML =
+        "<figure data-lb=\"" + producto.id + "\"><img src=\"" + producto.imagen + "\" alt=\"" + producto.nombre + "\" loading=\"lazy\"></figure>" +
+        '<div class="producto-body">' +
+        '  <div class="producto-nombre">' + producto.nombre + "</div>" +
+        '  <div class="producto-precio">' + imprimirPrecio(producto.precio, mostrarDesde) + "</div>" +
+        tallasHTML +
+        boton +
+        "</div>";
+
+      return div;
+    }
+
+    function renderizarCategoria(categoria, filtroTalla) {
+      const contenedor = document.getElementById(categoria + "-grid");
+      contenedor.innerHTML = "";
+      const conTallas = !!catalogo[categoria][0].tallas;
+      const mostrarDesde = categoria === "camisas";
+
+      const visibles = filtroTalla && filtroTalla !== "todas"
+        ? catalogo[categoria].filter(function (p) {
+            return p.tallas && p.tallas.indexOf(filtroTalla) !== -1;
+          })
+        : catalogo[categoria];
+
+      visibles.forEach(function (p) {
+        contenedor.appendChild(crearTarjeta(p, conTallas, mostrarDesde));
+      });
+    }
+
+    ["camisas", "jeans", "gorras"].forEach(function (cat) {
+      renderizarCategoria(cat, "todas");
+    });
+
+    document.getElementById("filtros-camisas").addEventListener("click", function (e) {
+      if (!e.target.classList.contains("filtro")) return;
+      this.querySelectorAll(".filtro").forEach(function (b) { b.classList.remove("activo"); });
+      e.target.classList.add("activo");
+      renderizarCategoria("camisas", e.target.dataset.filtro);
+    });
+
+    document.querySelectorAll(".productos").forEach(function (grid) {
+      grid.addEventListener("click", function (e) {
+        if (e.target.classList.contains("talla")) {
+          const grupo = e.target.parentElement;
+          grupo.querySelectorAll(".talla").forEach(function (b) { b.classList.remove("seleccionada"); });
+          e.target.classList.add("seleccionada");
+        }
+        if (e.target.classList.contains("producto-agregar")) {
+          const tarjeta = e.target.closest(".producto");
+          let talla = tarjeta.querySelector(".talla.seleccionada");
+          if (!talla) talla = tarjeta.querySelector(".talla");
+          agregarAlCarrito(encontrarProducto(e.target.dataset.agregar), talla ? talla.textContent : null);
+        }
+      });
+    });
+
+    /* ---------- Carrito ---------- */
+    const carrito = [];
+
+    function encontrarProducto(id) {
+      const cats = Object.keys(catalogo);
+      for (let i = 0; i < cats.length; i++) {
+        const p = catalogo[cats[i]].find(function (x) { return x.id === id; });
+        if (p) return p;
+      }
+      return null;
+    }
+
+    function abrirCarrito() {
+      document.getElementById("carrito").classList.add("abierto");
+      document.getElementById("carrito-overlay").classList.add("abierto");
+      document.body.style.overflow = "hidden";
+    }
+
+    function cerrarCarrito() {
+      document.getElementById("carrito").classList.remove("abierto");
+      document.getElementById("carrito-overlay").classList.remove("abierto");
+      document.body.style.overflow = "";
+    }
+
+    function agregarAlCarrito(producto, talla) {
+      if (!producto) return;
+      const clave = producto.id + (talla ? "|" + talla : "");
+      const item = carrito.find(function (c) { return c.clave === clave; });
+      if (item) {
+        item.cantidad++;
+      } else {
+        carrito.push({ clave: clave, producto: producto, talla: talla || null, cantidad: 1 });
+      }
+      renderCarrito();
+      abrirCarrito();
+    }
+
+    function totalCarrito() {
+      return carrito.reduce(function (s, c) { return s + c.producto.precio * c.cantidad; }, 0);
+    }
+
+    function renderCarrito() {
+      const cuerpo = document.getElementById("carrito-cuerpo");
+      document.getElementById("carrito-total").textContent = "$" + totalCarrito().toLocaleString("es-CO");
+
+      const cantidadTotal = carrito.reduce(function (s, c) { return s + c.cantidad; }, 0);
+      const badge = document.getElementById("carrito-badge");
+      badge.textContent = cantidadTotal;
+      badge.style.display = cantidadTotal ? "flex" : "none";
+
+      if (!carrito.length) {
+        cuerpo.innerHTML = '<p class="carrito-vacio">Tu carrito está vacío. Agrega tus prendas.</p>';
+        return;
+      }
+
+      cuerpo.innerHTML = carrito.map(function (c) {
+        return '<div class="carrito-item">' +
+          '<img src="' + c.producto.imagen + '" alt="' + c.producto.nombre + '">' +
+          '<div class="carrito-item-info">' +
+          '  <div class="carrito-item-nombre">' + c.producto.nombre + "</div>" +
+          '  <div class="carrito-item-detalle">' + (c.talla ? "Talla " + c.talla : "Talla única") + "</div>" +
+          '  <div class="carrito-item-precio">$' + c.producto.precio.toLocaleString("es-CO") + "</div>" +
+          '  <div class="cantidad">' +
+          '    <button data-accion="menos" data-clave="' + c.clave + '">&minus;</button>' +
+          '    <span>' + c.cantidad + "</span>" +
+          '    <button data-accion="mas" data-clave="' + c.clave + '">+</button>' +
+          "  </div>" +
+          "</div>" +
+          '<div class="carrito-item-opciones" style="display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;">' +
+          '  <button class="carrito-quitar" data-accion="quitar" data-clave="' + c.clave + '">Quitar</button>' +
+          '  <div class="carrito-item-precio">$' + (c.producto.precio * c.cantidad).toLocaleString("es-CO") + "</div>" +
+          "</div>" +
+          "</div>";
+      }).join("");
+    }
+
+    document.getElementById("carrito-cuerpo").addEventListener("click", function (e) {
+      const btn = e.target.closest("[data-accion]");
+      if (!btn) return;
+      const clave = btn.dataset.clave;
+      const item = carrito.find(function (c) { return c.clave === clave; });
+      if (!item) return;
+      if (btn.dataset.accion === "mas") {
+        item.cantidad++;
+      } else if (btn.dataset.accion === "menos") {
+        item.cantidad--;
+        if (item.cantidad <= 0) {
+          carrito.splice(carrito.indexOf(item), 1);
+        }
+      } else if (btn.dataset.accion === "quitar") {
+        carrito.splice(carrito.indexOf(item), 1);
+      }
+      renderCarrito();
+    });
+
+    document.getElementById("carrito-btn").addEventListener("click", abrirCarrito);
+    document.getElementById("carrito-cerrar").addEventListener("click", cerrarCarrito);
+    document.getElementById("carrito-overlay").addEventListener("click", cerrarCarrito);
+
+    document.getElementById("finalizar-btn").addEventListener("click", function () {
+      const pedido = document.getElementById("pedido");
+      if (!carrito.length) {
+        alert("Tu carrito está vacío.");
+        return;
+      }
+      pedido.classList.toggle("abierto");
+      this.textContent = pedido.classList.contains("abierto") ? "Volver al carrito" : "Finalizar pedido";
+    });
+
+    document.getElementById("enviar-btn").addEventListener("click", function () {
+      if (!carrito.length) {
+        alert("Tu carrito está vacío.");
+        return;
+      }
+      const campos = [
+        ["f-nombre", "Nombre completo"],
+        ["f-telefono", "Número de teléfono"],
+        ["f-direccion", "Dirección"],
+        ["f-barrio", "Barrio"],
+        ["f-ciudad", "Ciudad"],
+        ["f-correo", "Correo electrónico"]
+      ];
+      let faltan = false;
+      campos.forEach(function (par) {
+        const input = document.getElementById(par[0]);
+        if (!input.value.trim()) {
+          input.style.borderColor = "#a02c2c";
+          faltan = true;
+        } else {
+          input.style.borderColor = "";
+        }
+      });
+      const pago = document.querySelector('input[name="pago"]:checked');
+      if (!pago) faltan = true;
+      if (faltan) {
+        alert("Por favor completa todos los datos y selecciona un medio de pago.");
+        return;
+      }
+
+      const valor = function (id) { return document.getElementById(id).value.trim(); };
+
+      let mensaje = "*NUEVO PEDIDO - JC District*\n\n";
+      mensaje += "*PRENDAS:*\n";
+      carrito.forEach(function (c) {
+        mensaje += "- " + c.producto.nombre +
+          (c.talla ? " (Talla " + c.talla + ")" : " (Talla única)") +
+          " x" + c.cantidad +
+          " = $" + (c.producto.precio * c.cantidad).toLocaleString("es-CO") + "\n";
+      });
+      mensaje += "\n*TOTAL: $" + totalCarrito().toLocaleString("es-CO") + "*\n\n";
+      mensaje += "*DATOS DEL CLIENTE:*\n";
+      mensaje += "Nombre: " + valor("f-nombre") + "\n";
+      mensaje += "Teléfono: " + valor("f-telefono") + "\n";
+      mensaje += "Dirección: " + valor("f-direccion") + "\n";
+      mensaje += "Barrio: " + valor("f-barrio") + "\n";
+      mensaje += "Ciudad: " + valor("f-ciudad") + "\n";
+      mensaje += "Correo: " + valor("f-correo") + "\n";
+      mensaje += "\nMedio de pago: *" + pago.value + "*";
+
+      window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(mensaje), "_blank");
+
+      carrito.length = 0;
+      renderCarrito();
+      cerrarCarrito();
+      document.getElementById("pedido").classList.remove("abierto");
+      document.getElementById("finalizar-btn").textContent = "Finalizar pedido";
+      ["f-nombre", "f-telefono", "f-direccion", "f-barrio", "f-ciudad", "f-correo"].forEach(function (id) {
+        document.getElementById(id).value = "";
+      });
+      document.querySelectorAll('input[name="pago"]').forEach(function (r) { r.checked = false; });
+    });
+
+    /* ---------- Lightbox ---------- */
+    const lightbox = document.getElementById("lightbox");
+    const lbImagen = document.getElementById("lb-imagen");
+    const lbNombre = document.getElementById("lb-nombre");
+    const lbPrecio = document.getElementById("lb-precio");
+
+    function abrirLightbox(lista, indice) {
+      lightboxLista = lista;
+      lightboxIndice = indice;
+      mostrarEnLightbox();
+      lightbox.classList.add("abierto");
+      document.body.style.overflow = "hidden";
+    }
+
+    function mostrarEnLightbox() {
+      const item = lightboxLista[lightboxIndice];
+      lbImagen.src = item.imagen;
+      lbImagen.alt = item.nombre;
+      lbNombre.textContent = item.nombre;
+      lbPrecio.textContent = "$" + item.precio.toLocaleString("es-CO");
+    }
+
+    function cerrarLightbox() {
+      lightbox.classList.remove("abierto");
+      document.body.style.overflow = "";
+    }
+
+    function navegar(dir) {
+      lightboxIndice = (lightboxIndice + dir + lightboxLista.length) % lightboxLista.length;
+      mostrarEnLightbox();
+    }
+
+    document.addEventListener("click", function (e) {
+      if (e.target.closest(".producto figure")) {
+        const id = e.target.closest(".producto figure").dataset.lb;
+        const categoria = id.split("-")[0];
+        const lista = catalogo[categoria];
+        const indice = lista.findIndex(function (p) { return p.id === id; });
+        abrirLightbox(lista, indice);
+      }
+    });
+
+    document.getElementById("lb-cerrar").addEventListener("click", cerrarLightbox);
+    document.getElementById("lb-prev").addEventListener("click", function () { navegar(-1); });
+    document.getElementById("lb-next").addEventListener("click", function () { navegar(1); });
+
+    lightbox.addEventListener("click", function (e) {
+      if (e.target === lightbox) cerrarLightbox();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (!lightbox.classList.contains("abierto")) return;
+      if (e.key === "Escape") cerrarLightbox();
+      if (e.key === "ArrowLeft") navegar(-1);
+      if (e.key === "ArrowRight") navegar(1);
+    });
+  </script>
+</body>
+</html>
