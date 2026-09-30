@@ -241,6 +241,7 @@
     }
 
     .producto figure {
+      position: relative;
       background-color: var(--gris);
       aspect-ratio: 3 / 4;
       overflow: hidden;
@@ -248,6 +249,22 @@
       align-items: center;
       justify-content: center;
       cursor: zoom-in;
+    }
+
+    .producto-fotos {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 4px 9px;
+      background-color: rgba(10, 10, 10, 0.78);
+      border: 1px solid var(--borde);
+      color: var(--texto);
+      font-family: "Oswald", "Segoe UI", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      pointer-events: none;
     }
 
     .producto img {
@@ -450,6 +467,14 @@
 
     .lightbox-info strong {
       color: var(--texto);
+    }
+
+    .lightbox-contador {
+      margin-top: 6px;
+      color: var(--texto);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
     .lightbox-cerrar {
@@ -1014,7 +1039,7 @@
     <button class="lightbox-cerrar" id="lb-cerrar" aria-label="Cerrar">&times;</button>
     <button class="lightbox-nav lightbox-prev" id="lb-prev" aria-label="Anterior">&#8249;</button>
     <img id="lb-imagen" src="" alt="">
-    <div class="lightbox-info"><strong id="lb-nombre"></strong> &mdash; <span id="lb-precio"></span></div>
+    <div class="lightbox-info"><strong id="lb-nombre"></strong> &mdash; <span id="lb-precio"></span><div class="lightbox-contador" id="lb-contador"></div></div>
     <button class="lightbox-nav lightbox-next" id="lb-next" aria-label="Siguiente">&#8250;</button>
   </div>
 
@@ -1025,25 +1050,46 @@
 
     function precioBase(idx, categoria) {
       if (categoria === "gorras") return idx < 11 ? 60000 : 55000;
-      if (categoria === "jeans") return 140000;
       return 45000 + (idx % 5) * 3000;
     }
 
     function etiqueta(categoria, idx) {
       if (categoria === "camisas") return "Camisa JC " + (idx + 1);
-      if (categoria === "jeans") return "Jeans JC " + (idx + 1);
       return "Gorra JC " + (idx + 1);
     }
 
+    const referenciasJeans = [
+      { nombre: "DS2 A", slug: "ds2-a", fotos: 2 },
+      { nombre: "AMIRI N", slug: "amiri-n", fotos: 2 },
+      { nombre: "PURPLE A", slug: "purple-a", fotos: 3 },
+      { nombre: "PURPLE A2", slug: "purple-a2", fotos: 2 },
+      { nombre: "PURPLE A3", slug: "purple-a3", fotos: 2 },
+      { nombre: "PURPLE G", slug: "purple-g", fotos: 3 },
+      { nombre: "PURPLE N", slug: "purple-n", fotos: 3 },
+      { nombre: "PURPLE N2", slug: "purple-n2", fotos: 3 },
+      { nombre: "PURPLE N3", slug: "purple-n3", fotos: 3 }
+    ];
+
     const config = {
       camisas: { count: 25, tallas: tallas },
-      jeans: { count: 8, tallas: ["30", "32", "34", "36", "38"] },
       gorras: { count: 29, tallas: null }
     };
 
-    const catalogo = {};
-    let lightboxLista = [];
-    let lightboxIndice = 0;
+    const catalogo = { jeans: [] };
+
+    referenciasJeans.forEach(function (ref, i) {
+      const imagenes = [];
+      for (let f = 1; f <= ref.fotos; f++) {
+        imagenes.push("img/jeans/" + ref.slug + "-" + f + ".jpg");
+      }
+      catalogo.jeans.push({
+        id: "jeans-" + i,
+        nombre: ref.nombre,
+        precio: 140000,
+        imagenes: imagenes,
+        tallas: ["30", "32", "34", "36", "38"]
+      });
+    });
 
     Object.keys(config).forEach(function (categoria) {
       const c = config[categoria];
@@ -1053,11 +1099,27 @@
           id: categoria + "-" + i,
           nombre: etiqueta(categoria, i),
           precio: precioBase(i, categoria),
-          imagen: "img/" + categoria + "/" +
-            (categoria === "camisas" ? "camisa" : categoria === "jeans" ? "jeans" : "gorra") + (i + 1) + ".jpg",
+          imagenes: ["img/" + categoria + "/" +
+            (categoria === "camisas" ? "camisa" : "gorra") + (i + 1) + ".jpg"],
           tallas: c.tallas
         });
       }
+    });
+
+    const galeria = {};
+    Object.keys(catalogo).forEach(function (categoria) {
+      galeria[categoria] = [];
+      catalogo[categoria].forEach(function (p) {
+        p.imagenes.forEach(function (imagen, i) {
+          galeria[categoria].push({
+            imagen: imagen,
+            nombre: p.nombre,
+            precio: p.precio,
+            foto: i + 1,
+            total: p.imagenes.length
+          });
+        });
+      });
     });
 
     function imprimirPrecio(precio, desde) {
@@ -1078,8 +1140,12 @@
 
       const boton = '<button class="producto-agregar" data-agregar="' + producto.id + '">Agregar</button>';
 
+      const fotos = producto.imagenes.length > 1
+        ? '<span class="producto-fotos">' + producto.imagenes.length + " fotos</span>"
+        : "";
+
       div.innerHTML =
-        "<figure data-lb=\"" + producto.id + "\"><img src=\"" + producto.imagen + "\" alt=\"" + producto.nombre + "\" loading=\"lazy\"></figure>" +
+        "<figure data-lb=\"" + producto.id + "\"><img src=\"" + producto.imagenes[0] + "\" alt=\"" + producto.nombre + "\" loading=\"lazy\">" + fotos + "</figure>" +
         '<div class="producto-body">' +
         '  <div class="producto-nombre">' + producto.nombre + "</div>" +
         '  <div class="producto-precio">' + imprimirPrecio(producto.precio, mostrarDesde) + "</div>" +
@@ -1191,7 +1257,7 @@
 
       cuerpo.innerHTML = carrito.map(function (c) {
         return '<div class="carrito-item">' +
-          '<img src="' + c.producto.imagen + '" alt="' + c.producto.nombre + '">' +
+          '<img src="' + c.producto.imagenes[0] + '" alt="' + c.producto.nombre + '">' +
           '<div class="carrito-item-info">' +
           '  <div class="carrito-item-nombre">' + c.producto.nombre + "</div>" +
           '  <div class="carrito-item-detalle">' + (c.talla ? "Talla " + c.talla : "Talla única") + "</div>" +
@@ -1311,11 +1377,20 @@
     const lbImagen = document.getElementById("lb-imagen");
     const lbNombre = document.getElementById("lb-nombre");
     const lbPrecio = document.getElementById("lb-precio");
+    const lbContador = document.getElementById("lb-contador");
+    const lbPrev = document.getElementById("lb-prev");
+    const lbNext = document.getElementById("lb-next");
+
+    let lightboxLista = [];
+    let lightboxIndice = 0;
 
     function abrirLightbox(lista, indice) {
       lightboxLista = lista;
       lightboxIndice = indice;
       mostrarEnLightbox();
+      const unaFoto = lista.length < 2;
+      lbPrev.style.display = unaFoto ? "none" : "flex";
+      lbNext.style.display = unaFoto ? "none" : "flex";
       lightbox.classList.add("abierto");
       document.body.style.overflow = "hidden";
     }
@@ -1326,6 +1401,7 @@
       lbImagen.alt = item.nombre;
       lbNombre.textContent = item.nombre;
       lbPrecio.textContent = "$" + item.precio.toLocaleString("es-CO");
+      lbContador.textContent = item.total > 1 ? "Foto " + item.foto + " de " + item.total : "";
     }
 
     function cerrarLightbox() {
@@ -1339,13 +1415,16 @@
     }
 
     document.addEventListener("click", function (e) {
-      if (e.target.closest(".producto figure")) {
-        const id = e.target.closest(".producto figure").dataset.lb;
-        const categoria = id.split("-")[0];
-        const lista = catalogo[categoria];
-        const indice = lista.findIndex(function (p) { return p.id === id; });
-        abrirLightbox(lista, indice);
-      }
+      const figura = e.target.closest(".producto figure");
+      if (!figura) return;
+      const id = figura.dataset.lb;
+      const categoria = id.split("-")[0];
+      const producto = catalogo[categoria].find(function (p) { return p.id === id; });
+      if (!producto) return;
+      const indice = galeria[categoria].findIndex(function (g) {
+        return g.imagen === producto.imagenes[0];
+      });
+      abrirLightbox(galeria[categoria], indice);
     });
 
     document.getElementById("lb-cerrar").addEventListener("click", cerrarLightbox);
