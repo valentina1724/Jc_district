@@ -932,7 +932,7 @@
     <div class="contenedor">
       <div class="seccion-titulo">
         <h2>Gorras</h2>
-        <p>Primeras referencias a $60.000 y el resto a $55.000</p>
+        <p>Todos a $55.000</p>
       </div>
       <div class="productos" id="gorras-grid"></div>
     </div>
@@ -1049,13 +1049,11 @@
     const tallas = ["S", "M", "L", "XL"];
 
     function precioBase(idx, categoria) {
-      if (categoria === "gorras") return idx < 11 ? 60000 : 55000;
       return 45000 + (idx % 5) * 3000;
     }
 
     function etiqueta(categoria, idx) {
-      if (categoria === "camisas") return "Camisa JC " + (idx + 1);
-      return "Gorra JC " + (idx + 1);
+      return "Camisa JC " + (idx + 1);
     }
 
     const referenciasJeans = [
@@ -1070,12 +1068,58 @@
       { nombre: "PURPLE N3", slug: "purple-n3", fotos: 3 }
     ];
 
+    const referenciasGorras = [
+      { nombre: "Amiri Blanca", slug: "amiri-blanca" },
+      { nombre: "Amiri Combinada Piedreria", slug: "amiri-combinada-piedreria" },
+      { nombre: "Amiri Piedreria", slug: "amiri-piedreria" },
+      { nombre: "Amiri", slug: "amiri" },
+      { nombre: "Bélica Jesús", slug: "belica-jesus" },
+      { nombre: "Bélica Piedreria", slug: "belica-piedreria" },
+      { nombre: "Bélica Religiosa", slug: "belica-religiosa" },
+      { nombre: "Bélica Rosario", slug: "belica-rosario" },
+      { nombre: "Bélica Sagrado Corazón", slug: "belica-sagrado-corazon" },
+      { nombre: "Bélica San Judas", slug: "belica-san-judas" },
+      { nombre: "Clemont Blanca", slug: "clemont-blanca" },
+      { nombre: "Clemont Negra", slug: "clemont-negra" },
+      { nombre: "Clemont Roja", slug: "clemont-roja" },
+      { nombre: "Formula 1", slug: "formula-1" },
+      { nombre: "Forty Seven", slug: "forty-seven" },
+      { nombre: "FOX Blanca", slug: "fox-blanca" },
+      { nombre: "FOX Roja", slug: "fox-roja" },
+      { nombre: "Godspeed A", slug: "godspeed-a" },
+      { nombre: "Godspeed N", slug: "godspeed-n" },
+      { nombre: "Goorin Bros C-Azul", slug: "goorin-bros-c-azul" },
+      { nombre: "Goorin Bros C-Rojo", slug: "goorin-bros-c-rojo" },
+      { nombre: "Goorin Bros G-Beige", slug: "goorin-bros-g-beige" },
+      { nombre: "Goorin Bros G-Rojo", slug: "goorin-bros-g-rojo" },
+      { nombre: "Goorin Bros Pantera", slug: "goorin-bros-pantera" },
+      { nombre: "Hellstar", slug: "hellstar" },
+      { nombre: "HUGO", slug: "hugo" },
+      { nombre: "KTM", slug: "ktm" },
+      { nombre: "LA", slug: "la" },
+      { nombre: "Lacoste", slug: "lacoste" },
+      { nombre: "Monastery N", slug: "monastery-n" },
+      { nombre: "Monastery", slug: "monastery" },
+      { nombre: "Oveja Negra", slug: "oveja-negra" },
+      { nombre: "Tommy", slug: "tommy" },
+      { nombre: "Y-OUT", slug: "y-out" }
+    ];
+
     const config = {
-      camisas: { count: 25, tallas: tallas },
-      gorras: { count: 29, tallas: null }
+      camisas: { count: 25, tallas: tallas }
     };
 
-    const catalogo = { jeans: [] };
+    const catalogo = { jeans: [], gorras: [] };
+
+    referenciasGorras.forEach(function (ref, i) {
+      catalogo.gorras.push({
+        id: "gorras-" + i,
+        nombre: ref.nombre,
+        precio: 55000,
+        imagenes: ["img/gorras/" + ref.slug + ".jpg"],
+        tallas: null
+      });
+    });
 
     referenciasJeans.forEach(function (ref, i) {
       const imagenes = [];
