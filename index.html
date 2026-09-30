@@ -887,6 +887,7 @@
         <li><a href="#camisas">Camisas</a></li>
         <li><a href="#jeans">Jeans</a></li>
         <li><a href="#gorras">Gorras</a></li>
+        <li><a href="#billeteras">Billeteras</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
       <button class="carrito-btn" id="carrito-btn" aria-label="Abrir carrito">&#128722;<span class="carrito-badge" id="carrito-badge" style="display:none;">0</span></button>
@@ -935,6 +936,16 @@
         <p>Todos a $55.000</p>
       </div>
       <div class="productos" id="gorras-grid"></div>
+    </div>
+  </section>
+
+  <section class="seccion" id="billeteras">
+    <div class="contenedor">
+      <div class="seccion-titulo">
+        <h2>Billeteras</h2>
+        <p>Todos a $50.000</p>
+      </div>
+      <div class="productos" id="billeteras-grid"></div>
     </div>
   </section>
 
@@ -1105,11 +1116,21 @@
       { nombre: "Y-OUT", slug: "y-out" }
     ];
 
+    const referenciasBilleteras = [
+      { nombre: "Burberry", slug: "burberry", fotos: 2 },
+      { nombre: "Coach", slug: "coach", fotos: 2 },
+      { nombre: "Gucci N", slug: "gucci-n", fotos: 2 },
+      { nombre: "Gucci Tradicional", slug: "gucci-tradicional", fotos: 2 },
+      { nombre: "Hugo Boss", slug: "hugo-boss", fotos: 2 },
+      { nombre: "Louis Vuitton", slug: "louis-vuitton", fotos: 2 },
+      { nombre: "Valentino", slug: "valentino", fotos: 2 }
+    ];
+
     const config = {
       camisas: { count: 25, tallas: tallas }
     };
 
-    const catalogo = { jeans: [], gorras: [] };
+    const catalogo = { jeans: [], gorras: [], billeteras: [] };
 
     referenciasGorras.forEach(function (ref, i) {
       catalogo.gorras.push({
@@ -1117,6 +1138,20 @@
         nombre: ref.nombre,
         precio: 55000,
         imagenes: ["img/gorras/" + ref.slug + ".jpg"],
+        tallas: null
+      });
+    });
+
+    referenciasBilleteras.forEach(function (ref, i) {
+      const imagenes = [];
+      for (let f = 1; f <= ref.fotos; f++) {
+        imagenes.push("img/billeteras/" + ref.slug + "-" + f + ".jpg");
+      }
+      catalogo.billeteras.push({
+        id: "billeteras-" + i,
+        nombre: ref.nombre,
+        precio: 50000,
+        imagenes: imagenes,
         tallas: null
       });
     });
@@ -1217,7 +1252,7 @@
       });
     }
 
-    ["camisas", "jeans", "gorras"].forEach(function (cat) {
+    ["camisas", "jeans", "gorras", "billeteras"].forEach(function (cat) {
       renderizarCategoria(cat, "todas");
     });
 
