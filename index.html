@@ -888,6 +888,7 @@
         <li><a href="#jeans">Jeans</a></li>
         <li><a href="#gorras">Gorras</a></li>
         <li><a href="#billeteras">Billeteras</a></li>
+        <li><a href="#cinturones">Cinturones</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
       <button class="carrito-btn" id="carrito-btn" aria-label="Abrir carrito">&#128722;<span class="carrito-badge" id="carrito-badge" style="display:none;">0</span></button>
@@ -946,6 +947,16 @@
         <p>Todos a $50.000</p>
       </div>
       <div class="productos" id="billeteras-grid"></div>
+    </div>
+  </section>
+
+  <section class="seccion" id="cinturones">
+    <div class="contenedor">
+      <div class="seccion-titulo">
+        <h2>Cinturones</h2>
+        <p>Todos a $50.000</p>
+      </div>
+      <div class="productos" id="cinturones-grid"></div>
     </div>
   </section>
 
@@ -1126,11 +1137,22 @@
       { nombre: "Valentino", slug: "valentino", fotos: 2 }
     ];
 
+    const referenciasCinturones = [
+      { nombre: "AMIRI N", slug: "amiri-n" },
+      { nombre: "Gucci", slug: "gucci" },
+      { nombre: "Louis Vuitton Cuadros-N", slug: "louis-vuitton-cuadros-n" },
+      { nombre: "Louis Vuitton B", slug: "louis-vuitton-b" },
+      { nombre: "Louis Vuitton Cuadros - CD", slug: "louis-vuitton-cuadros-cd" },
+      { nombre: "Louis Vuitton Cuadros-C", slug: "louis-vuitton-cuadros-c" },
+      { nombre: "Louis Vuitton Original", slug: "louis-vuitton-original" },
+      { nombre: "NN", slug: "nn" }
+    ];
+
     const config = {
       camisas: { count: 25, tallas: tallas }
     };
 
-    const catalogo = { jeans: [], gorras: [], billeteras: [] };
+    const catalogo = { jeans: [], gorras: [], billeteras: [], cinturones: [] };
 
     referenciasGorras.forEach(function (ref, i) {
       catalogo.gorras.push({
@@ -1152,6 +1174,16 @@
         nombre: ref.nombre,
         precio: 50000,
         imagenes: imagenes,
+        tallas: null
+      });
+    });
+
+    referenciasCinturones.forEach(function (ref, i) {
+      catalogo.cinturones.push({
+        id: "cinturones-" + i,
+        nombre: ref.nombre,
+        precio: 50000,
+        imagenes: ["img/cinturones/" + ref.slug + ".jpg"],
         tallas: null
       });
     });
@@ -1252,7 +1284,7 @@
       });
     }
 
-    ["camisas", "jeans", "gorras", "billeteras"].forEach(function (cat) {
+    ["camisas", "jeans", "gorras", "billeteras", "cinturones"].forEach(function (cat) {
       renderizarCategoria(cat, "todas");
     });
 
