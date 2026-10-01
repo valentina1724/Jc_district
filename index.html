@@ -1205,11 +1205,13 @@
 
     const tallas = ["S", "M", "L", "XL"];
 
-    function precioBase(idx, categoria) {
-      return 45000 + (idx % 5) * 3000;
-    }
+    const preciosCamisas = [
+      88000, 88000, 95000, 120000, 120000, 120000, 120000, 95000, 88000, 88000,
+      88000, 88000, 88000, 120000, 120000, 95000, 120000, 120000, 88000, 88000,
+      88000, 120000, 88000, 120000, 88000
+    ];
 
-    function etiqueta(categoria, idx) {
+    function etiqueta(idx) {
       return "Camisa JC " + (idx + 1);
     }
 
@@ -1275,16 +1277,16 @@
     const referenciasCinturones = [
       { nombre: "AMIRI N", slug: "amiri-n" },
       { nombre: "Gucci", slug: "gucci" },
+      { nombre: "Ferragamo", slug: "ferragamo" },
       { nombre: "Louis Vuitton Cuadros-N", slug: "louis-vuitton-cuadros-n" },
       { nombre: "Louis Vuitton B", slug: "louis-vuitton-b" },
       { nombre: "Louis Vuitton Cuadros - CD", slug: "louis-vuitton-cuadros-cd" },
       { nombre: "Louis Vuitton Cuadros-C", slug: "louis-vuitton-cuadros-c" },
-      { nombre: "Louis Vuitton Original", slug: "louis-vuitton-original" },
-      { nombre: "NN", slug: "nn" }
+      { nombre: "Louis Vuitton Original", slug: "louis-vuitton-original" }
     ];
 
     const config = {
-      camisas: { count: 25, tallas: tallas }
+      camisas: { count: preciosCamisas.length, tallas: tallas }
     };
 
     const catalogo = { jeans: [], gorras: [], billeteras: [], cinturones: [] };
@@ -1343,8 +1345,8 @@
       for (let i = 0; i < c.count; i++) {
         catalogo[categoria].push({
           id: categoria + "-" + i,
-          nombre: etiqueta(categoria, i),
-          precio: precioBase(i, categoria),
+          nombre: etiqueta(i),
+          precio: preciosCamisas[i],
           imagenes: ["img/" + categoria + "/" +
             (categoria === "camisas" ? "camisa" : "gorra") + (i + 1) + ".jpg"],
           tallas: c.tallas
@@ -1368,11 +1370,11 @@
       });
     });
 
-    function imprimirPrecio(precio, desde) {
-      return (desde ? "<small>desde</small> " : "") + "$" + precio.toLocaleString("es-CO");
+    function imprimirPrecio(precio) {
+      return "$" + precio.toLocaleString("es-CO");
     }
 
-    function crearTarjeta(producto, conTallas, mostrarDesde) {
+    function crearTarjeta(producto, conTallas) {
       const div = document.createElement("article");
       div.className = "producto";
 
@@ -1394,7 +1396,7 @@
         "<figure data-lb=\"" + producto.id + "\"><img src=\"" + producto.imagenes[0] + "\" alt=\"" + producto.nombre + "\" loading=\"lazy\">" + fotos + "</figure>" +
         '<div class="producto-body">' +
         '  <div class="producto-nombre">' + producto.nombre + "</div>" +
-        '  <div class="producto-precio">' + imprimirPrecio(producto.precio, mostrarDesde) + "</div>" +
+        '  <div class="producto-precio">' + imprimirPrecio(producto.precio) + "</div>" +
         tallasHTML +
         boton +
         "</div>";
@@ -1406,7 +1408,6 @@
       const contenedor = document.getElementById(categoria + "-grid");
       contenedor.innerHTML = "";
       const conTallas = !!catalogo[categoria][0].tallas;
-      const mostrarDesde = categoria === "camisas";
 
       const visibles = filtroTalla && filtroTalla !== "todas"
         ? catalogo[categoria].filter(function (p) {
@@ -1415,7 +1416,7 @@
         : catalogo[categoria];
 
       visibles.forEach(function (p) {
-        contenedor.appendChild(crearTarjeta(p, conTallas, mostrarDesde));
+        contenedor.appendChild(crearTarjeta(p, conTallas));
       });
     }
 
