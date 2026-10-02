@@ -375,6 +375,29 @@
       pointer-events: none;
     }
 
+    .producto.agotado figure img {
+      filter: grayscale(1) brightness(0.55);
+    }
+
+    .producto-fotos.etiqueta-agotado {
+      background-color: var(--texto);
+      color: var(--negro);
+      border-color: var(--texto);
+    }
+
+    .producto-agregar:disabled,
+    .talla:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .producto-agregar:disabled:hover,
+    .talla:disabled:hover {
+      background-color: transparent;
+      color: var(--texto);
+      border-color: var(--borde);
+    }
+
     .producto img {
       width: 100%;
       height: 100%;
@@ -999,15 +1022,7 @@
           <img class="logo-img" src="img/logo.jpeg" alt="JC District">
         </div>
       </a>
-      <ul class="menu">
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#camisas">Camisas</a></li>
-        <li><a href="#jeans">Jeans</a></li>
-        <li><a href="#gorras">Gorras</a></li>
-        <li><a href="#billeteras">Billeteras</a></li>
-        <li><a href="#cinturones">Cinturones</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
+      <ul class="menu" id="menu-principal"></ul>
       <button class="carrito-btn" id="carrito-btn" aria-label="Abrir carrito">&#128722;<span class="carrito-badge" id="carrito-badge" style="display:none;">0</span></button>
     </div>
   </header>
@@ -1019,15 +1034,7 @@
       <span>JC District</span>
       <button class="menu-lateral-cerrar" id="menu-lateral-cerrar" aria-label="Cerrar menú">&times;</button>
     </div>
-    <nav class="menu-lateral-links" id="menu-lateral-links">
-      <a href="#inicio">Inicio</a>
-      <a href="#camisas">Camisas</a>
-      <a href="#jeans">Jeans</a>
-      <a href="#gorras">Gorras</a>
-      <a href="#billeteras">Billeteras</a>
-      <a href="#cinturones">Cinturones</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
+    <nav class="menu-lateral-links" id="menu-lateral-links"></nav>
   </aside>
 
   <section class="hero" id="inicio">
@@ -1035,63 +1042,6 @@
       <img class="logo-hero" src="img/logo.jpeg" alt="JC District">
       <p>Estilo urbano de lujo. Camisas, jeans y gorras para cada momento, con la calidad que te mereces.</p>
       <a href="#camisas" class="btn">Ver Colección</a>
-    </div>
-  </section>
-
-  <section class="seccion" id="camisas">
-    <div class="contenedor">
-      <div class="seccion-titulo">
-        <h2>Camisas</h2>
-        <p>Disponibles en tallas S, M, L y XL</p>
-      </div>
-      <div class="filtros" id="filtros-camisas">
-        <button class="filtro activo" data-filtro="todas">Todas</button>
-        <button class="filtro" data-filtro="S">Talla S</button>
-        <button class="filtro" data-filtro="M">Talla M</button>
-        <button class="filtro" data-filtro="L">Talla L</button>
-        <button class="filtro" data-filtro="XL">Talla XL</button>
-      </div>
-      <div class="productos" id="camisas-grid"></div>
-    </div>
-  </section>
-
-  <section class="seccion" id="jeans">
-    <div class="contenedor">
-      <div class="seccion-titulo">
-        <h2>Jeans</h2>
-        <p>Todos a $140.000 &mdash; tallas 30, 32, 34, 36 y 38</p>
-      </div>
-      <div class="productos" id="jeans-grid"></div>
-    </div>
-  </section>
-
-  <section class="seccion" id="gorras">
-    <div class="contenedor">
-      <div class="seccion-titulo">
-        <h2>Gorras</h2>
-        <p>Todos a $55.000</p>
-      </div>
-      <div class="productos" id="gorras-grid"></div>
-    </div>
-  </section>
-
-  <section class="seccion" id="billeteras">
-    <div class="contenedor">
-      <div class="seccion-titulo">
-        <h2>Billeteras</h2>
-        <p>Todos a $50.000</p>
-      </div>
-      <div class="productos" id="billeteras-grid"></div>
-    </div>
-  </section>
-
-  <section class="seccion" id="cinturones">
-    <div class="contenedor">
-      <div class="seccion-titulo">
-        <h2>Cinturones</h2>
-        <p>Todos a $50.000</p>
-      </div>
-      <div class="productos" id="cinturones-grid"></div>
     </div>
   </section>
 
@@ -1200,195 +1150,85 @@
     <button class="lightbox-nav lightbox-next" id="lb-next" aria-label="Siguiente">&#8250;</button>
   </div>
 
+  <script src="datos.js"></script>
   <script>
     const WHATSAPP = "573005729947";
 
-    const tallas = ["S", "M", "L", "XL"];
-
-    const preciosCamisas = [
-      88000, 88000, 95000, 120000, 120000, 120000, 120000, 95000, 88000, 88000,
-      88000, 88000, 88000, 120000, 120000, 95000, 120000, 120000, 88000, 88000,
-      88000, 120000, 88000, 120000, 88000
-    ];
-
-    function etiqueta(idx) {
-      return "Camisa JC " + (idx + 1);
-    }
-
-    const referenciasJeans = [
-      { nombre: "DS2 A", slug: "ds2-a", fotos: 2 },
-      { nombre: "AMIRI N", slug: "amiri-n", fotos: 2 },
-      { nombre: "PURPLE A", slug: "purple-a", fotos: 3 },
-      { nombre: "PURPLE A2", slug: "purple-a2", fotos: 2 },
-      { nombre: "PURPLE A3", slug: "purple-a3", fotos: 2 },
-      { nombre: "PURPLE G", slug: "purple-g", fotos: 3 },
-      { nombre: "PURPLE N", slug: "purple-n", fotos: 3 },
-      { nombre: "PURPLE N2", slug: "purple-n2", fotos: 3 },
-      { nombre: "PURPLE N3", slug: "purple-n3", fotos: 3 }
-    ];
-
-    const referenciasGorras = [
-      { nombre: "Amiri Blanca", slug: "amiri-blanca" },
-      { nombre: "Amiri Combinada Piedreria", slug: "amiri-combinada-piedreria" },
-      { nombre: "Amiri Piedreria", slug: "amiri-piedreria" },
-      { nombre: "Amiri", slug: "amiri" },
-      { nombre: "Bélica Jesús", slug: "belica-jesus" },
-      { nombre: "Bélica Piedreria", slug: "belica-piedreria" },
-      { nombre: "Bélica Religiosa", slug: "belica-religiosa" },
-      { nombre: "Bélica Rosario", slug: "belica-rosario" },
-      { nombre: "Bélica Sagrado Corazón", slug: "belica-sagrado-corazon" },
-      { nombre: "Bélica San Judas", slug: "belica-san-judas" },
-      { nombre: "Clemont Blanca", slug: "clemont-blanca" },
-      { nombre: "Clemont Negra", slug: "clemont-negra" },
-      { nombre: "Clemont Roja", slug: "clemont-roja" },
-      { nombre: "Formula 1", slug: "formula-1" },
-      { nombre: "Forty Seven", slug: "forty-seven" },
-      { nombre: "FOX Blanca", slug: "fox-blanca" },
-      { nombre: "FOX Roja", slug: "fox-roja" },
-      { nombre: "Godspeed A", slug: "godspeed-a" },
-      { nombre: "Godspeed N", slug: "godspeed-n" },
-      { nombre: "Goorin Bros C-Azul", slug: "goorin-bros-c-azul" },
-      { nombre: "Goorin Bros C-Rojo", slug: "goorin-bros-c-rojo" },
-      { nombre: "Goorin Bros G-Beige", slug: "goorin-bros-g-beige" },
-      { nombre: "Goorin Bros G-Rojo", slug: "goorin-bros-g-rojo" },
-      { nombre: "Goorin Bros Pantera", slug: "goorin-bros-pantera" },
-      { nombre: "Hellstar", slug: "hellstar" },
-      { nombre: "HUGO", slug: "hugo" },
-      { nombre: "KTM", slug: "ktm" },
-      { nombre: "LA", slug: "la" },
-      { nombre: "Lacoste", slug: "lacoste" },
-      { nombre: "Monastery N", slug: "monastery-n" },
-      { nombre: "Monastery", slug: "monastery" },
-      { nombre: "Oveja Negra", slug: "oveja-negra" },
-      { nombre: "Tommy", slug: "tommy" },
-      { nombre: "Y-OUT", slug: "y-out" }
-    ];
-
-    const referenciasBilleteras = [
-      { nombre: "Burberry", slug: "burberry", fotos: 2 },
-      { nombre: "Coach", slug: "coach", fotos: 2 },
-      { nombre: "Gucci N", slug: "gucci-n", fotos: 2 },
-      { nombre: "Gucci Tradicional", slug: "gucci-tradicional", fotos: 2 },
-      { nombre: "Hugo Boss", slug: "hugo-boss", fotos: 2 },
-      { nombre: "Louis Vuitton", slug: "louis-vuitton", fotos: 2 },
-      { nombre: "Valentino", slug: "valentino", fotos: 2 }
-    ];
-
-    const referenciasCinturones = [
-      { nombre: "AMIRI N", slug: "amiri-n" },
-      { nombre: "Gucci", slug: "gucci" },
-      { nombre: "Ferragamo", slug: "ferragamo" },
-      { nombre: "Louis Vuitton Cuadros-N", slug: "louis-vuitton-cuadros-n" },
-      { nombre: "Louis Vuitton B", slug: "louis-vuitton-b" },
-      { nombre: "Louis Vuitton Cuadros - CD", slug: "louis-vuitton-cuadros-cd" },
-      { nombre: "Louis Vuitton Cuadros-C", slug: "louis-vuitton-cuadros-c" },
-      { nombre: "Louis Vuitton Original", slug: "louis-vuitton-original" }
-    ];
-
-    const config = {
-      camisas: { count: preciosCamisas.length, tallas: tallas }
-    };
-
-    const catalogo = { jeans: [], gorras: [], billeteras: [], cinturones: [] };
-
-    referenciasGorras.forEach(function (ref, i) {
-      catalogo.gorras.push({
-        id: "gorras-" + i,
-        nombre: ref.nombre,
-        precio: 55000,
-        imagenes: ["img/gorras/" + ref.slug + ".jpg"],
-        tallas: null
-      });
-    });
-
-    referenciasBilleteras.forEach(function (ref, i) {
-      const imagenes = [];
-      for (let f = 1; f <= ref.fotos; f++) {
-        imagenes.push("img/billeteras/" + ref.slug + "-" + f + ".jpg");
-      }
-      catalogo.billeteras.push({
-        id: "billeteras-" + i,
-        nombre: ref.nombre,
-        precio: 50000,
-        imagenes: imagenes,
-        tallas: null
-      });
-    });
-
-    referenciasCinturones.forEach(function (ref, i) {
-      catalogo.cinturones.push({
-        id: "cinturones-" + i,
-        nombre: ref.nombre,
-        precio: 50000,
-        imagenes: ["img/cinturones/" + ref.slug + ".jpg"],
-        tallas: null
-      });
-    });
-
-    referenciasJeans.forEach(function (ref, i) {
-      const imagenes = [];
-      for (let f = 1; f <= ref.fotos; f++) {
-        imagenes.push("img/jeans/" + ref.slug + "-" + f + ".jpg");
-      }
-      catalogo.jeans.push({
-        id: "jeans-" + i,
-        nombre: ref.nombre,
-        precio: 140000,
-        imagenes: imagenes,
-        tallas: ["30", "32", "34", "36", "38"]
-      });
-    });
-
-    Object.keys(config).forEach(function (categoria) {
-      const c = config[categoria];
-      catalogo[categoria] = [];
-      for (let i = 0; i < c.count; i++) {
-        catalogo[categoria].push({
-          id: categoria + "-" + i,
-          nombre: etiqueta(i),
-          precio: preciosCamisas[i],
-          imagenes: ["img/" + categoria + "/" +
-            (categoria === "camisas" ? "camisa" : "gorra") + (i + 1) + ".jpg"],
-          tallas: c.tallas
-        });
-      }
-    });
-
+    /* ---------- Catalogo (viene de datos.js) ---------- */
+    const DATOS = window.CATALOGO;
+    const categorias = (DATOS && DATOS.categorias) || [];
+    const catalogo = {};
     const galeria = {};
-    Object.keys(catalogo).forEach(function (categoria) {
-      galeria[categoria] = [];
-      catalogo[categoria].forEach(function (p) {
-        p.imagenes.forEach(function (imagen, i) {
-          galeria[categoria].push({
-            imagen: imagen,
-            nombre: p.nombre,
-            precio: p.precio,
-            foto: i + 1,
-            total: p.imagenes.length
-          });
-        });
-      });
-    });
 
     function imprimirPrecio(precio) {
       return "$" + precio.toLocaleString("es-CO");
     }
 
+    function listaTallas(tallas) {
+      if (!tallas || !tallas.length) return "";
+      if (tallas.length === 1) return tallas[0];
+      return tallas.slice(0, -1).join(", ") + " y " + tallas[tallas.length - 1];
+    }
+
+    function resumenPrecios(productos) {
+      const precios = productos.map(function (p) { return p.precio; });
+      const min = Math.min.apply(null, precios);
+      const max = Math.max.apply(null, precios);
+      return min === max
+        ? "Todos a " + imprimirPrecio(min)
+        : "Desde " + imprimirPrecio(min) + " hasta " + imprimirPrecio(max);
+    }
+
+    function crearSeccion(categoria) {
+      const sec = document.createElement("section");
+      sec.className = "seccion";
+      sec.id = categoria.id;
+
+      const productos = categoria.productos;
+      const conTallas = productos.length > 0 && productos[0].tallas;
+      let subtitulo = productos.length ? resumenPrecios(productos) : "Proximamente";
+      if (conTallas) subtitulo += " &mdash; tallas " + listaTallas(categoria.tallas);
+
+      const filtros = conTallas
+        ? '<div class="filtros">' +
+            '<button class="filtro activo" data-filtro="todas" data-categoria="' + categoria.id + '">Todas</button>' +
+            categoria.tallas.map(function (t) {
+              return '<button class="filtro" data-filtro="' + t + '" data-categoria="' + categoria.id + '">Talla ' + t + "</button>";
+            }).join("") +
+          "</div>"
+        : "";
+
+      sec.innerHTML =
+        '<div class="contenedor">' +
+          '<div class="seccion-titulo">' +
+            "<h2>" + categoria.titulo + "</h2>" +
+            "<p>" + subtitulo + "</p>" +
+          "</div>" +
+          filtros +
+          '<div class="productos" id="' + categoria.id + '-grid"></div>' +
+        "</div>";
+      return sec;
+    }
+
     function crearTarjeta(producto, conTallas) {
+      const agotado = producto.stock === 0;
       const div = document.createElement("article");
-      div.className = "producto";
+      div.className = "producto" + (agotado ? " agotado" : "");
 
       const tallasHTML = conTallas
         ? '<div class="tallas">' +
           producto.tallas.map(function (t) {
-            return '<button class="talla" data-talla="' + t + '">' + t + "</button>";
+            return '<button class="talla" data-talla="' + t + '"' + (agotado ? " disabled" : "") + ">" + t + "</button>";
           }).join("") +
           "</div>"
         : "";
 
-      const boton = '<button class="producto-agregar" data-agregar="' + producto.id + '">Agregar</button>';
+      const boton = '<button class="producto-agregar" data-agregar="' + producto.id + '"' +
+        (agotado ? " disabled" : "") + ">" + (agotado ? "Agotado" : "Agregar") + "</button>";
 
-      const fotos = producto.imagenes.length > 1
+      const fotos = agotado
+        ? '<span class="producto-fotos etiqueta-agotado">Agotado</span>'
+        : producto.imagenes.length > 1
         ? '<span class="producto-fotos">' + producto.imagenes.length + " fotos</span>"
         : "";
 
@@ -1404,47 +1244,87 @@
       return div;
     }
 
-    function renderizarCategoria(categoria, filtroTalla) {
-      const contenedor = document.getElementById(categoria + "-grid");
-      contenedor.innerHTML = "";
-      const conTallas = !!catalogo[categoria][0].tallas;
-
+    function renderizarCategoria(id, filtroTalla) {
+      const contenedor = document.getElementById(id + "-grid");
+      if (!contenedor) return;
+      const productos = catalogo[id];
+      const conTallas = productos.length > 0 && productos[0].tallas;
       const visibles = filtroTalla && filtroTalla !== "todas"
-        ? catalogo[categoria].filter(function (p) {
-            return p.tallas && p.tallas.indexOf(filtroTalla) !== -1;
-          })
-        : catalogo[categoria];
-
-      visibles.forEach(function (p) {
-        contenedor.appendChild(crearTarjeta(p, conTallas));
-      });
+        ? productos.filter(function (p) { return p.tallas && p.tallas.indexOf(filtroTalla) !== -1; })
+        : productos;
+      contenedor.innerHTML = "";
+      visibles.forEach(function (p) { contenedor.appendChild(crearTarjeta(p, conTallas)); });
     }
 
-    ["camisas", "jeans", "gorras", "billeteras", "cinturones"].forEach(function (cat) {
-      renderizarCategoria(cat, "todas");
-    });
+    function construirCatalogo() {
+      if (!categorias.length) {
+        document.body.insertAdjacentHTML(
+          "afterbegin",
+          '<section class="seccion"><div class="contenedor"><div class="seccion-titulo">' +
+          "<h2>No se pudo cargar el catalogo</h2>" +
+          "<p>Ejecuta <strong>actualizar.bat</strong> para regenerar los datos desde el Excel.</p>" +
+          "</div></div></section>");
+        return;
+      }
 
-    document.getElementById("filtros-camisas").addEventListener("click", function (e) {
-      if (!e.target.classList.contains("filtro")) return;
-      this.querySelectorAll(".filtro").forEach(function (b) { b.classList.remove("activo"); });
-      e.target.classList.add("activo");
-      renderizarCategoria("camisas", e.target.dataset.filtro);
-    });
+      const contacto = document.getElementById("contacto");
 
-    document.querySelectorAll(".productos").forEach(function (grid) {
-      grid.addEventListener("click", function (e) {
-        if (e.target.classList.contains("talla")) {
-          const grupo = e.target.parentElement;
-          grupo.querySelectorAll(".talla").forEach(function (b) { b.classList.remove("seleccionada"); });
-          e.target.classList.add("seleccionada");
-        }
-        if (e.target.classList.contains("producto-agregar")) {
-          const tarjeta = e.target.closest(".producto");
-          let talla = tarjeta.querySelector(".talla.seleccionada");
-          if (!talla) talla = tarjeta.querySelector(".talla");
-          agregarAlCarrito(encontrarProducto(e.target.dataset.agregar), talla ? talla.textContent : null);
-        }
+      categorias.forEach(function (categoria) {
+        catalogo[categoria.id] = categoria.productos;
+        galeria[categoria.id] = [];
+        categoria.productos.forEach(function (p) {
+          p.imagenes.forEach(function (imagen, i) {
+            galeria[categoria.id].push({
+              imagen: imagen, nombre: p.nombre, precio: p.precio, foto: i + 1, total: p.imagenes.length
+            });
+          });
+        });
+        contacto.parentElement.insertBefore(crearSeccion(categoria), contacto);
+        renderizarCategoria(categoria.id, "todas");
       });
+
+      const enlaces = categorias.map(function (c) { return { href: "#" + c.id, texto: c.titulo }; });
+
+      document.getElementById("menu-principal").innerHTML =
+        '<li><a href="#inicio">Inicio</a></li>' +
+        enlaces.map(function (e) { return '<li><a href="' + e.href + '">' + e.texto + "</a></li>"; }).join("") +
+        '<li><a href="#contacto">Contacto</a></li>';
+
+      document.getElementById("menu-lateral-links").innerHTML =
+        '<a href="#inicio">Inicio</a>' +
+        enlaces.map(function (e) { return '<a href="' + e.href + '">' + e.texto + "</a>"; }).join("") +
+        '<a href="#contacto">Contacto</a>';
+    }
+
+    construirCatalogo();
+
+    /* Delegacion: filtros, tallas y agregar (las secciones se crean al vuelo) */
+    document.addEventListener("click", function (e) {
+      const filtro = e.target.closest(".filtro");
+      if (filtro) {
+        filtro.parentElement.querySelectorAll(".filtro").forEach(function (b) {
+          b.classList.remove("activo");
+        });
+        filtro.classList.add("activo");
+        renderizarCategoria(filtro.dataset.categoria, filtro.dataset.filtro);
+        return;
+      }
+
+      if (e.target.classList.contains("talla") && !e.target.disabled) {
+        e.target.parentElement.querySelectorAll(".talla").forEach(function (b) {
+          b.classList.remove("seleccionada");
+        });
+        e.target.classList.add("seleccionada");
+        return;
+      }
+
+      const agregar = e.target.closest("[data-agregar]");
+      if (agregar && !agregar.disabled) {
+        const tarjeta = agregar.closest(".producto");
+        const talla = tarjeta.querySelector(".talla.seleccionada") ||
+          tarjeta.querySelector(".talla:not([disabled])");
+        agregarAlCarrito(encontrarProducto(agregar.dataset.agregar), talla ? talla.textContent : null);
+      }
     });
 
     /* ---------- Carrito ---------- */
@@ -1473,9 +1353,17 @@
 
     function agregarAlCarrito(producto, talla) {
       if (!producto) return;
+      if (producto.stock === 0) {
+        alert(producto.nombre + " esta agotado.");
+        return;
+      }
       const clave = producto.id + (talla ? "|" + talla : "");
       const item = carrito.find(function (c) { return c.clave === clave; });
       if (item) {
+        if (item.cantidad >= producto.stock) {
+          alert("Solo quedan " + producto.stock + " unidad(es) de " + producto.nombre + ".");
+          return;
+        }
         item.cantidad++;
       } else {
         carrito.push({ clave: clave, producto: producto, talla: talla || null, cantidad: 1 });
@@ -1530,6 +1418,10 @@
       const item = carrito.find(function (c) { return c.clave === clave; });
       if (!item) return;
       if (btn.dataset.accion === "mas") {
+        if (item.producto.stock > 0 && item.cantidad >= item.producto.stock) {
+          alert("Solo quedan " + item.producto.stock + " unidad(es) de " + item.producto.nombre + ".");
+          return;
+        }
         item.cantidad++;
       } else if (btn.dataset.accion === "menos") {
         item.cantidad--;
@@ -1572,7 +1464,9 @@
       if (e.target.closest("a")) cerrarMenu();
     });
 
-    const seccionesMenu = ["inicio", "camisas", "jeans", "gorras", "billeteras", "cinturones", "contacto"];
+    const seccionesMenu = ["inicio"]
+      .concat(categorias.map(function (c) { return c.id; }))
+      .concat(["contacto"]);
 
     function marcarSeccionActiva() {
       const limite = window.scrollY + 140;
