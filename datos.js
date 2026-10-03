@@ -1,7 +1,7 @@
 /* Generado por generar_catalogo.py desde productos.xlsx.
    No editar a mano: tus cambios se pierden al volver a generar. */
 window.CATALOGO = {
-  "generado": "2026-10-02 06:13",
+  "generado": "2026-10-02 21:46",
   "categorias": [
     {
       "id": "camisas",
@@ -82,7 +82,7 @@ window.CATALOGO = {
           "nombre": "Camisa JC 5",
           "precio": 120000,
           "precioBase": null,
-          "stock": 5,
+          "stock": 0,
           "tallas": [
             "S",
             "M",
